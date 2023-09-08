@@ -32,8 +32,13 @@ export default function App() {
         if (col === 0) {
           ctx.fillText("▲", x + 5, y + 20);
         } else if (col === cols - 1) {
+          const circleX = x + cellSize - 25;
+          const circleY = y + 25;
+          const maxCircleRadius = 15;
+          const circleRadius = Math.min(maxCircleRadius, maxCircleRadius * zoom); // Scale the radius with zoom but limit it to maxCircleRadius
+
           ctx.beginPath();
-          ctx.arc(x + cellSize - 25, y + 25, 15, 0, 2 * Math.PI);
+          ctx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI);
           ctx.stroke();
         } else {
           const symbols = ["RE", "$", "*", ""];
@@ -61,8 +66,8 @@ export default function App() {
     }
   }, [zoom, columns]);
   return (
-    <div style={{margin: '50px'}}>
-      <div style={{marginBottom: '10px'}}>
+    <div style={{ margin: '50px' }}>
+      <div style={{ marginBottom: '10px' }}>
         <label>Number of Columns: </label>
         <input
           type="number"
@@ -78,10 +83,12 @@ export default function App() {
         height={250 * zoom}
         style={{ border: "1px solid black" }}
       />
-      <button onClick={() => setZoom(zoom + 0.1)}>Zoom In</button>
-      <button onClick={() => setZoom(Math.max(0.1, zoom - 0.1))}>
-        Zoom Out
-      </button>
+      <div style={{ marginTop: '14px' }}>
+        <button onClick={() => setZoom(zoom + 0.1)}>Zoom In</button>{" "}
+        <button onClick={() => setZoom(Math.max(0.1, zoom - 0.1))}>
+          Zoom Out
+        </button>
+      </div>
     </div>
   );
 }
